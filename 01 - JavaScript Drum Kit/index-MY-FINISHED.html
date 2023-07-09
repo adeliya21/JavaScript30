@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+
+  <div class="keys">
+    <div code="KeyA" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div code="KeyS" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div code="KeyD" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div code="KeyF" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div code="KeyG" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div code="KeyH" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div code="KeyJ" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div code="KeyK" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div code="KeyL" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+  <audio code="KeyA" src="sounds/clap.wav"></audio>
+  <audio code="KeyS" src="sounds/hihat.wav"></audio>
+  <audio code="KeyD" src="sounds/kick.wav"></audio>
+  <audio code="KeyF" src="sounds/openhat.wav"></audio>
+  <audio code="KeyG" src="sounds/boom.wav"></audio>
+  <audio code="KeyH" src="sounds/ride.wav"></audio>
+  <audio code="KeyJ" src="sounds/snare.wav"></audio>
+  <audio code="KeyK" src="sounds/tom.wav"></audio>
+  <audio code="KeyL" src="sounds/tink.wav"></audio>
+
+<script>
+
+  function playSound(event) {
+    const audio = document.querySelector(`audio[code='${event.code}']`);
+    //console.log(audio);
+    if (!audio) return;
+    audio.currentTime = 0;
+    audio.play();
+
+    const key = document.querySelector(`.key[code='${event.code}']`);
+    //console.log(key);
+    key.classList.add('playing');
+    //key.classList.remove('playing'); //separate function
+  }
+
+  function removeTransition(event) {
+   //console.log(event);
+   if (event.propertyName !== 'transform') return; //transform is longest one to finish transitioning
+   this.classList.remove('playing'); //this is key because addEventListener was called against key
+   //event.target.classList.remove('playing');
+  };
+
+  keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
+
+</script>
+
+
+</body>
+</html>
